@@ -5,11 +5,11 @@ describe('task', () => {
     const initialState = {
         tasks: {}
     }
-    
+
     it('should return initialState with undefined action', () => {
         expect(task(initialState, {})).to.deep.equal(initialState)
     })
-    
+
     it('should remove task on DELETE_TASK action', () => {
         const previousState = {
             tasks: {
@@ -37,7 +37,7 @@ describe('task', () => {
             }
         });
     })
-    
+
     it('should ignore removing non-existing task', () => {
         const previousState = {
             tasks: {
@@ -69,7 +69,7 @@ describe('task', () => {
             }
         });
     })
-    
+
     it('should save fetched tasks indexed by id', () => {
         const action = {
             type: 'FETCH_TASKS',
@@ -98,7 +98,7 @@ describe('task', () => {
             }
         });
     })
-    
+
     it('should update existing task on UPDATE_TASK', () => {
         const action = {
             type: 'UPDATE_TASK',
@@ -125,4 +125,34 @@ describe('task', () => {
             }
         });
     })
+
+	it('should add new task on CREATE_TASK', () => {
+		const action = {
+			type: 'CREATE_TASK',
+			payload: {
+				id: 2,
+				name: 'new task'
+			}
+		}
+		const previousState = {
+			tasks: {
+				1: {
+					id: 1,
+					name: 'task 1'
+				}
+			}
+		}
+		expect(task(previousState, action)).to.deep.equal({
+			tasks: {
+				1: {
+					id: 1,
+					name: 'task 1'
+				},
+				2: {
+					id: 2,
+					name: 'new task'
+				}
+			}
+		});
+	})
 })
