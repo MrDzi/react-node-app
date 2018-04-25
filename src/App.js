@@ -1,23 +1,54 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
-import logo from './logo.svg';
+import { TabContent, TabPane, NavItem, NavLink } from 'reactstrap';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-		<Button>Test Bootstrap</Button>
-      </div>
-    );
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			activeTab: '1'
+		}
+	}
+	toggleTab(tab) {
+		if (this.state.activeTab !== tab) {
+			this.setState({
+				activeTab: tab
+			});
+		}
+	}
+	render() {
+    	return (
+      		<div className="app">
+        		<header className="app-header">
+          			<h1 className="app-title">ReactNode App</h1>
+        		</header>
+				<NavItem>
+					<NavLink
+						onClick={() => {
+							this.toggleTab('1');
+						}}
+					>
+						Default
+					</NavLink>
+					<NavLink
+						onClick={() => {
+							this.toggleTab('2');
+						}}
+					>
+						Category 1
+					</NavLink>
+				</NavItem>
+				<TabContent activeTab={this.state.activeTab}>
+					<TabPane tabId='1'>
+						Content of the FIRST tab
+					</TabPane>
+					<TabPane tabId='2'>
+						Content of the SECOND tab
+					</TabPane>
+				</TabContent>
+      		</div>
+    	);
+  	}
 }
 
 export default App;
