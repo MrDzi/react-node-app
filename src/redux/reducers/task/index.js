@@ -7,7 +7,7 @@ const initialState = {
 
 export default function task(state = initialState, action) {
     switch(action.type) {
-        case ActionTypes.FETCH_TASKS:
+        case ActionTypes.FETCHED_TASKS:
             return {
 				...state,
                 tasks: R.indexBy(R.prop('id'), action.payload)

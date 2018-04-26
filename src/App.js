@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabContent, TabPane, NavItem, NavLink } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import './App.css';
 
 class App extends Component {
@@ -22,22 +22,26 @@ class App extends Component {
         		<header className="app-header">
           			<h1 className="app-title">ReactNode App</h1>
         		</header>
-				<NavItem>
-					<NavLink
-						onClick={() => {
-							this.toggleTab('1');
-						}}
-					>
-						Default
-					</NavLink>
-					<NavLink
-						onClick={() => {
-							this.toggleTab('2');
-						}}
-					>
-						Category 1
-					</NavLink>
-				</NavItem>
+				<Nav tabs>
+					<NavItem>
+						<NavLink
+							onClick={() => {
+								this.toggleTab('1');
+							}}
+						>
+							Default
+						</NavLink>
+					</NavItem>
+					<NavItem>
+						<NavLink
+							onClick={() => {
+								this.toggleTab('2');
+							}}
+						>
+							Category 1
+						</NavLink>
+					</NavItem>
+				</Nav>
 				<TabContent activeTab={this.state.activeTab}>
 					<TabPane tabId='1'>
 						Content of the FIRST tab
