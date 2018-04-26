@@ -1,5 +1,5 @@
 import { ActionTypes } from './actions.js';
-import R from 'ramda';
+import * as R from 'ramda';
 
 const initialState = {
 	categories: {}

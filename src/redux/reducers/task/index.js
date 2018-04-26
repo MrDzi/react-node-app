@@ -1,4 +1,4 @@
-import R from 'ramda';
+import * as R from 'ramda';
 import { ActionTypes } from './actions';
 
 const initialState = {
@@ -37,3 +37,5 @@ export default function task(state = initialState, action) {
             return state;
     }
 }
+
+export const getTasksFromState = (state) => state.task.tasks;

@@ -9,6 +9,7 @@ export const ActionTypes = {
 	DELETED_TASK: 'DELETED_TASK',
 }
 
-export fetchTasks = () => ({
+export const fetchTasks = () => ({
 	type: ActionTypes.FETCH_TASKS
 })
+

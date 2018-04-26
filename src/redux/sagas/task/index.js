@@ -1,3 +1,5 @@
+import { takeEvery, put, call } from 'redux-saga/effects'
+
 import { ActionTypes } from '../../reducers/task/actions';
 
 const fetchDataMockWrapper = (data) => {
@@ -17,9 +19,10 @@ const fetchTasksMock = fetchDataMockWrapper([
 	}
 ]);
 
-export const fetchTasks = function* () {
+const fetchTasks = function* () {
 	try {
 		const response = yield call(fetchTasksMock);
+		console.log(response);
 		yield put({
 			type: ActionTypes.FETCHED_TASKS,
 			payload: response.body
@@ -27,4 +30,10 @@ export const fetchTasks = function* () {
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+export function* taskSagas() {
+	yield [
+		takeEvery(ActionTypes.FETCH_TASKS, fetchTasks)
+	]
 }

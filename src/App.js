@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { tasksSelector } from './redux/reducers/task/selectors';
+import { fetchTasks } from './redux/reducers/task/actions';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import './App.css';
 
@@ -8,6 +11,9 @@ class App extends Component {
 		this.state = {
 			activeTab: '1'
 		}
+	}
+	componentDidMount() {
+		this.props.fetchTasks();
 	}
 	toggleTab(tab) {
 		if (this.state.activeTab !== tab) {
@@ -48,6 +54,7 @@ class App extends Component {
 					</TabPane>
 					<TabPane tabId='2'>
 						Content of the SECOND tab
+						{JSON.stringify(this.props.tasks)}
 					</TabPane>
 				</TabContent>
       		</div>
@@ -55,4 +62,14 @@ class App extends Component {
   	}
 }
 
-export default App;
+function mapStateToProps(state) {
+	return {
+		tasks: tasksSelector(state)
+	}
+}
+
+const mapDispatchToProps = {
+	fetchTasks
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
