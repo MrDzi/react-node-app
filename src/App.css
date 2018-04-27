@@ -1,7 +1,5 @@
-.app {
-  text-align: center; }
-  .app p {
-    color: red; }
+.app p {
+  color: red; }
 
 .app-header {
   background-color: #222;
@@ -10,3 +8,6 @@
 
 .app-title {
   font-size: 1.5em; }
+
+.pt-50 {
+  padding-top: 50px; }

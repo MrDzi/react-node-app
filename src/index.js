@@ -3,13 +3,11 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import rootReducer from './redux/reducers';
-import registerServiceWorker from './registerServiceWorker';
-import { taskSagas } from './redux/sagas/task';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
+import rootSagas from './redux/sagas';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -18,7 +16,7 @@ const store = createStore(
     applyMiddleware(sagaMiddleware)
 );
 
-sagaMiddleware.run(taskSagas)
+sagaMiddleware.run(rootSagas)
 
 ReactDOM.render(
     <Provider store={store}>
@@ -26,4 +24,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();

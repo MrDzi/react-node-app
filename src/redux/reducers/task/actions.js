@@ -13,3 +13,7 @@ export const fetchTasks = () => ({
 	type: ActionTypes.FETCH_TASKS
 })
 
+export const updateTask = (task) => ({
+	type: ActionTypes.UPDATE_TASK,
+	payload: task
+})

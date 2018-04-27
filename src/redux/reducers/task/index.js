@@ -25,7 +25,7 @@ export default function task(state = initialState, action) {
 				...state,
                 tasks: R.omit([action.payload], state.tasks)
             }
-        case ActionTypes.UPDATE_TASK:
+        case ActionTypes.UPDATED_TASK:
             return {
 				...state,
                 tasks: {
