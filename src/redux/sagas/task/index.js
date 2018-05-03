@@ -34,7 +34,6 @@ const updateTaskMock = (task) => updateDataMockWrapper(task);
 const fetchTasks = function* () {
 	try {
 		const response = yield call(fetchTasksMock);
-		console.log(response);
 		yield put({
 			type: ActionTypes.FETCHED_TASKS,
 			payload: response.body
@@ -45,7 +44,6 @@ const fetchTasks = function* () {
 }
 
 const updateTask = function* (action) {
-	console.log(action);
 	try {
 		yield call(updateTaskMock, [action.payload]);
 	    yield put({

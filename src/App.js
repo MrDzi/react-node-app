@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tasksSelector } from './redux/reducers/task/selectors';
-import { fetchTasks, updateTask } from './redux/reducers/task/actions';
+import { fetchTasks, updateTask, updateDraft, resetDraft } from './redux/reducers/task/actions';
 import { TabContent, TabPane, Nav, NavItem, NavLink, ListGroup, ListGroupItem, Container, Button, Modal, ModalBody, Input, Form, FormGroup } from 'reactstrap';
+import classnames from 'classnames';
 import './App.css';
 
 class App extends Component {
@@ -11,10 +12,10 @@ class App extends Component {
 		this.state = {
 			activeTab: '1',
 			modal: false,
-			taskDraft: {
-				id: null,
-				name: ''
-			}
+			// taskDraft: {
+			// 	id: null,
+			// 	name: ''
+			// }
 		}
 	}
 	componentDidMount() {
@@ -28,25 +29,26 @@ class App extends Component {
 		}
 	}
 	openModalAndSetDraft(task) {
-		this.setState({
-			taskDraft: task
-		});
+		// this.setState({
+		// 	taskDraft: task
+		// });
+		this.props.updateDraft(task);
 		this.toggleModal();
 	}
-	toggleModal() {
+	toggleModal = () => {
 		this.setState({
 			modal: !this.state.modal
 		});
 	}
 	updateTask() {
-		this.props.updateTask(this.state.taskDraft);
+		this.props.updateTask(this.props.draftTask);
 		this.toggleModal();
-		this.setState({
-			taskDraft: {
-				id: null,
-				name: ''
-			}
-		});
+		// this.setState({
+		// 	taskDraft: {
+		// 		id: null,
+		// 		name: ''
+		// 	}
+		// });
 	}
 	render() {
     	return (
@@ -60,6 +62,7 @@ class App extends Component {
 							onClick={() => {
 								this.toggleTab('1');
 							}}
+							className={classnames({active: this.state.activeTab === '1'})}
 						>
 							Default
 						</NavLink>
@@ -69,6 +72,7 @@ class App extends Component {
 							onClick={() => {
 								this.toggleTab('2');
 							}}
+							className={classnames({active: this.state.activeTab === '2'})}
 						>
 							Category 1
 						</NavLink>
@@ -81,16 +85,17 @@ class App extends Component {
 								{
 									this.props.tasks.map((task) => {
 										return (
-											<ListGroupItem key={task.id}>
-												{task.name}
-												<Button
-													className="float-right"
-													onClick={() => {
-														this.openModalAndSetDraft(task)
-													}}
-												>
-													Edit
-												</Button>
+											<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
+												<span>{task.name}</span>
+												<div>
+													<Button
+														onClick={() => {
+															this.openModalAndSetDraft(task)
+														}}
+														>
+														Edit
+													</Button>
+												</div>
 											</ListGroupItem>
 										);
 									})
@@ -111,17 +116,21 @@ class App extends Component {
 									type="text"
 									name="taskName"
 									id="taskName"
-									defaultValue={this.state.taskDraft.name}
+									defaultValue={this.props.draftTask.name}
 									onChange={(event) => {
-										this.setState({
-											taskDraft: {
-												...this.state.taskDraft,
-												name: event.target.value
-											}
-										});
+										// this.setState({
+										// 	taskDraft: {
+										// 		...this.state.taskDraft,
+										// 		name: event.target.value
+										// 	}
+										// });
+										this.props.updateDraft({
+											name: event.target.value
+										})
 									}}
 								/>
         					</FormGroup>
+							<Button onClick={() => this.props.resetDraft()}>Reset</Button>
 							<Button onClick={() => this.updateTask()}>Submit</Button>
 						</Form>
 					</ModalBody>
@@ -132,14 +141,18 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+	console.log(state);
 	return {
-		tasks: tasksSelector(state)
+		tasks: tasksSelector(state),
+		draftTask: state.task.draftTask
 	}
 }
 
 const mapDispatchToProps = {
 	fetchTasks,
-	updateTask
+	updateTask,
+	updateDraft,
+	resetDraft,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

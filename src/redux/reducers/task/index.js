@@ -2,7 +2,10 @@ import * as R from 'ramda';
 import { ActionTypes } from './actions';
 
 const initialState = {
-    tasks: {}
+    tasks: {},
+	draftTask: {
+		name: ''
+	}
 };
 
 export default function task(state = initialState, action) {
@@ -31,8 +34,22 @@ export default function task(state = initialState, action) {
                 tasks: {
                     ...state.tasks,
                     [action.payload.id]: action.payload
-                }
+                },
+				draftTask: initialState.draftTask
             }
+		case ActionTypes.UPDATE_DRAFT:
+			return {
+				...state,
+				draftTask: {
+					...state.draftTask,
+					...action.payload
+				}
+			}
+		case ActionTypes.RESET_DRAFT:
+			return {
+				...state,
+				draftTask: state.tasks[state.draftTask.id]
+			}
         default:
             return state;
     }

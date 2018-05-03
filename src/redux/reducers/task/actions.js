@@ -7,6 +7,8 @@ export const ActionTypes = {
 	UPDATED_TASK: 'UPDATED_TASK',
     DELETE_TASK: 'DELETE_TASK',
 	DELETED_TASK: 'DELETED_TASK',
+	UPDATE_DRAFT: 'UPDATE_DRAFT',
+	RESET_DRAFT: 'RESET_DRAFT'
 }
 
 export const fetchTasks = () => ({
@@ -16,4 +18,13 @@ export const fetchTasks = () => ({
 export const updateTask = (task) => ({
 	type: ActionTypes.UPDATE_TASK,
 	payload: task
+})
+
+export const updateDraft = (task) => ({
+	type: ActionTypes.UPDATE_DRAFT,
+	payload: task
+})
+
+export const resetDraft = () => ({
+	type: ActionTypes.RESET_DRAFT
 })
