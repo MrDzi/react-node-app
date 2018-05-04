@@ -28,3 +28,8 @@ export const updateDraft = (task) => ({
 export const resetDraft = () => ({
 	type: ActionTypes.RESET_DRAFT
 })
+
+export const deleteTask = (taskId) => ({
+	type: ActionTypes.DELETE_TASK,
+	payload: taskId
+})

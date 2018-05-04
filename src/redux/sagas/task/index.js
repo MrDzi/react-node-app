@@ -2,7 +2,7 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 import * as R from 'ramda';
 import { ActionTypes } from '../../reducers/task/actions';
 
-const tasks = [
+let tasks = [
 	{
 		id: 1,
 		name: 'task 1'
@@ -13,13 +13,13 @@ const tasks = [
 	}
 ]
 
-const fetchDataMockWrapper = (data = null) => {
+const fetchTasksMockWrapper = (tasks = null) => {
 	return () => Promise.resolve({
-		body: data
+		body: tasks
 	});
 }
 
-const updateDataMockWrapper = (task) => {
+const updateTaskMockWrapper = (task) => {
 	const taskFromCollection = R.find(R.propEq('id', task.id), tasks);
 	task = {
 		...taskFromCollection,
@@ -28,8 +28,14 @@ const updateDataMockWrapper = (task) => {
 	return () => Promise.resolve();
 }
 
-const fetchTasksMock = fetchDataMockWrapper(tasks);
-const updateTaskMock = (task) => updateDataMockWrapper(task);
+const deleteTaskMockWrapper = (taskId) => {
+	tasks = R.filter((task) => task.id !== taskId, tasks);
+	return () => Promise.resolve();
+}
+
+const fetchTasksMock = fetchTasksMockWrapper(tasks);
+const updateTaskMock = (task) => updateTaskMockWrapper(task);
+const deleteTaskMock = (taskId) => deleteTaskMockWrapper(taskId);
 
 const fetchTasks = function* () {
 	try {
@@ -55,7 +61,20 @@ const updateTask = function* (action) {
 	}
 }
 
+const deleteTask = function* (action) {
+	try {
+		yield call(deleteTaskMock, action.payload);
+		yield put({
+			type: ActionTypes.DELETED_TASK,
+			payload: action.payload
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const taskSagas = [
 	takeEvery(ActionTypes.FETCH_TASKS, fetchTasks),
-	takeEvery(ActionTypes.UPDATE_TASK, updateTask)
+	takeEvery(ActionTypes.UPDATE_TASK, updateTask),
+	takeEvery(ActionTypes.DELETE_TASK, deleteTask)
 ]

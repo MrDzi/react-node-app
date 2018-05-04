@@ -23,7 +23,7 @@ export default function task(state = initialState, action) {
 					[action.payload.id]: action.payload
 				}
 			}
-        case ActionTypes.DELETE_TASK:
+        case ActionTypes.DELETED_TASK:
             return {
 				...state,
                 tasks: R.omit([action.payload], state.tasks)

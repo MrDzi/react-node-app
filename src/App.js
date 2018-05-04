@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tasksSelector } from './redux/reducers/task/selectors';
-import { fetchTasks, updateTask, updateDraft, resetDraft } from './redux/reducers/task/actions';
-import { TabContent, TabPane, Nav, NavItem, NavLink, ListGroup, ListGroupItem, Container, Button, Modal, ModalBody, Input, Form, FormGroup } from 'reactstrap';
+import { fetchTasks } from './redux/reducers/task/actions';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Container } from 'reactstrap';
 import classnames from 'classnames';
 import './App.css';
+import TaskList from './components/task/TaskList';
 
 class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			activeTab: '1',
-			modal: false,
-			// taskDraft: {
-			// 	id: null,
-			// 	name: ''
-			// }
+			activeTab: '1'
 		}
-	}
-	componentDidMount() {
-		this.props.fetchTasks();
 	}
 	toggleTab(tab) {
 		if (this.state.activeTab !== tab) {
@@ -28,27 +21,8 @@ class App extends Component {
 			});
 		}
 	}
-	openModalAndSetDraft(task) {
-		// this.setState({
-		// 	taskDraft: task
-		// });
-		this.props.updateDraft(task);
-		this.toggleModal();
-	}
-	toggleModal = () => {
-		this.setState({
-			modal: !this.state.modal
-		});
-	}
-	updateTask() {
-		this.props.updateTask(this.props.draftTask);
-		this.toggleModal();
-		// this.setState({
-		// 	taskDraft: {
-		// 		id: null,
-		// 		name: ''
-		// 	}
-		// });
+	componentDidMount() {
+		this.props.fetchTasks();
 	}
 	render() {
     	return (
@@ -81,26 +55,7 @@ class App extends Component {
 				<Container>
 					<TabContent className="pt-50" activeTab={this.state.activeTab}>
 						<TabPane tabId='1'>
-							<ListGroup>
-								{
-									this.props.tasks.map((task) => {
-										return (
-											<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
-												<span>{task.name}</span>
-												<div>
-													<Button
-														onClick={() => {
-															this.openModalAndSetDraft(task)
-														}}
-														>
-														Edit
-													</Button>
-												</div>
-											</ListGroupItem>
-										);
-									})
-								}
-							</ListGroup>
+							<TaskList></TaskList>
 						</TabPane>
 						<TabPane tabId='2'>
 							Content of the SECOND tab
@@ -108,40 +63,12 @@ class App extends Component {
 						</TabPane>
 					</TabContent>
 				</Container>
-				<Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-					<ModalBody>
-						<Form>
-        					<FormGroup>
-          						<Input
-									type="text"
-									name="taskName"
-									id="taskName"
-									defaultValue={this.props.draftTask.name}
-									onChange={(event) => {
-										// this.setState({
-										// 	taskDraft: {
-										// 		...this.state.taskDraft,
-										// 		name: event.target.value
-										// 	}
-										// });
-										this.props.updateDraft({
-											name: event.target.value
-										})
-									}}
-								/>
-        					</FormGroup>
-							<Button onClick={() => this.props.resetDraft()}>Reset</Button>
-							<Button onClick={() => this.updateTask()}>Submit</Button>
-						</Form>
-					</ModalBody>
-				</Modal>
       		</div>
     	);
   	}
 }
 
 function mapStateToProps(state) {
-	console.log(state);
 	return {
 		tasks: tasksSelector(state),
 		draftTask: state.task.draftTask
@@ -150,9 +77,6 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
 	fetchTasks,
-	updateTask,
-	updateDraft,
-	resetDraft,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
