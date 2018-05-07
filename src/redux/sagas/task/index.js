@@ -5,11 +5,13 @@ import { ActionTypes } from '../../reducers/task/actions';
 let tasks = [
 	{
 		id: 1,
-		name: 'task 1'
+		name: 'task 1',
+		categoryId: 1
 	},
 	{
 		id: 2,
-		name: 'task 2'
+		name: 'task 2',
+		categoryId: 2
 	}
 ]
 
@@ -33,9 +35,16 @@ const deleteTaskMockWrapper = (taskId) => {
 	return () => Promise.resolve();
 }
 
+const createTaskMockWrapper = (task) => {
+	task.id = tasks.length + 1;
+	tasks.push(task);
+	return () => Promise.resolve();
+}
+
 const fetchTasksMock = fetchTasksMockWrapper(tasks);
 const updateTaskMock = (task) => updateTaskMockWrapper(task);
 const deleteTaskMock = (taskId) => deleteTaskMockWrapper(taskId);
+const createTaskMock = (task) => createTaskMockWrapper(task);
 
 const fetchTasks = function* () {
 	try {
@@ -73,8 +82,21 @@ const deleteTask = function* (action) {
 	}
 }
 
+const createTask = function* (action) {
+	try {
+		yield call(createTaskMock, action.payload);
+		yield put({
+			type: ActionTypes.CREATED_TASK,
+			payload: action.payload
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export const taskSagas = [
 	takeEvery(ActionTypes.FETCH_TASKS, fetchTasks),
 	takeEvery(ActionTypes.UPDATE_TASK, updateTask),
-	takeEvery(ActionTypes.DELETE_TASK, deleteTask)
+	takeEvery(ActionTypes.DELETE_TASK, deleteTask),
+	takeEvery(ActionTypes.CREATE_TASK, createTask)
 ]

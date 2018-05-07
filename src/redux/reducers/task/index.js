@@ -15,7 +15,7 @@ export default function task(state = initialState, action) {
 				...state,
                 tasks: R.indexBy(R.prop('id'), action.payload)
             }
-		case ActionTypes.CREATE_TASK:
+		case ActionTypes.CREATED_TASK:
 			return {
 				...state,
 				tasks: {

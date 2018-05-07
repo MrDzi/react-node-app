@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tasksSelector } from '../../redux/reducers/task/selectors';
-import { updateTask, updateDraft, resetDraft, deleteTask } from '../../redux/reducers/task/actions';
-import {  ListGroup, ListGroupItem, Button, Modal, ModalBody, Input, Form, FormGroup } from 'reactstrap';
+import { updateTask, updateDraft, resetDraft, deleteTask, createTask } from '../../redux/reducers/task/actions';
+import { ListGroup, ListGroupItem, Button, Modal, ModalBody, Input, Form, FormGroup } from 'reactstrap';
 
 class TaskList extends Component {
 	constructor(props) {
@@ -20,36 +20,43 @@ class TaskList extends Component {
 			modalOpen: !this.state.modalOpen
 		});
 	}
-	updateTask() {
-		this.props.updateTask(this.props.draftTask);
+	updateOrCreateTask = () => {
+		this.props.draftTask.hasOwnProperty('id') ? this.props.updateTask(this.props.draftTask) : this.props.createTask(this.props.draftTask);
 		this.toggleModal();
 	}
 	render() {
 		return (
 			<div>
+				<Button
+					color="success"
+					onClick={this.toggleModal}
+					className="mb-5"
+				>
+					Add New Task
+				</Button>
 				<ListGroup>
 					{
 						this.props.tasks.map((task) => {
-							return (
-								<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
-									<span>{task.name}</span>
-									<div>
-										<Button
-											onClick={() => this.openModalAndSetDraft(task)}
-											>
-											Edit
-										</Button>
-										<Button
-											className="ml-1"
-											color="danger"
-											onClick={() => this.props.deleteTask(task.id)}
-											>
-											Delete
-										</Button>
-									</div>
-								</ListGroupItem>
-							);
-						})
+								return (
+									<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
+										<span>{task.name}</span>
+										<div>
+											<Button
+												onClick={() => this.openModalAndSetDraft(task)}
+												>
+												Edit
+											</Button>
+											<Button
+												className="ml-2"
+												color="danger"
+												onClick={() => this.props.deleteTask(task.id)}
+												>
+												Delete
+											</Button>
+										</div>
+									</ListGroupItem>
+								);
+							})
 					}
 				</ListGroup>
 				<Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
@@ -71,8 +78,8 @@ class TaskList extends Component {
 							<div className="text-right">
 								<Button onClick={() => this.props.resetDraft()}>Reset</Button>
 								<Button
-									className="ml-1"
-									onClick={() => this.updateTask()}
+									className="ml-2"
+									onClick={this.updateOrCreateTask}
 									color="primary"
 								>
 									Submit
@@ -98,6 +105,7 @@ const mapDispatchToProps = {
 	updateDraft,
 	resetDraft,
 	deleteTask,
+	createTask,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

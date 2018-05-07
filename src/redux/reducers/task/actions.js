@@ -33,3 +33,8 @@ export const deleteTask = (taskId) => ({
 	type: ActionTypes.DELETE_TASK,
 	payload: taskId
 })
+
+export const createTask = (task) => ({
+	type: ActionTypes.CREATE_TASK,
+	payload: task
+})
