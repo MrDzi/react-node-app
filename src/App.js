@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { tasksSelector } from './redux/reducers/task/selectors';
 import { categoriesSelector } from './redux/reducers/category/selectors';
 import { fetchTasks } from './redux/reducers/task/actions';
-import { fetchCategories, createCategory, updateCategory, setSelectedCategory } from './redux/reducers/category/actions';
+import { fetchCategories, createCategory, updateCategory, setSelectedCategory, clearDraft } from './redux/reducers/category/actions';
 import { TabContent, TabPane, Nav, NavItem, NavLink, Container, Modal, ModalBody, Input, Form, FormGroup, Button } from 'reactstrap';
 import classnames from 'classnames';
 import './App.css';
@@ -67,7 +67,7 @@ class App extends Component {
 					</NavItem>
 					{
 						this.props.categories.map((category, index) => {
-							const tabOrder = (index + 2).toString();
+							const tabOrder = getTabOrder(index);
 							return (
 								<NavItem key={index}>
 									<NavLink
@@ -97,9 +97,8 @@ class App extends Component {
 						</TabPane>
 						{
 							this.props.categories.map((category, index) => {
-								const tabOrder = (index + 2).toString();
 								return (
-									<TabPane tabId={tabOrder} key={index}>
+									<TabPane tabId={getTabOrder(index)} key={index}>
 										<TaskList />
 									</TabPane>
 								)
@@ -107,7 +106,11 @@ class App extends Component {
 						}
 					</TabContent>
 				</Container>
-				<Modal isOpen={this.state.modalOpen} toggle={this.toggleCategoryModal}>
+				<Modal
+					isOpen={this.state.modalOpen}
+					toggle={this.toggleCategoryModal}
+					onClosed={this.props.clearDraft}
+				>
 					<ModalBody>
 						<Form>
         					<FormGroup>
@@ -140,6 +143,12 @@ class App extends Component {
   	}
 }
 
+const numOfTabsBefore = 1;
+function getTabOrder(index) {
+	const tabOrder = index + numOfTabsBefore + 1;
+	return tabOrder.toString();
+}
+
 function mapStateToProps(state) {
 	return {
 		tasks: tasksSelector(state),
@@ -156,6 +165,7 @@ const mapDispatchToProps = {
 	createCategory,
 	updateCategory,
 	setSelectedCategory,
+	clearDraft,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

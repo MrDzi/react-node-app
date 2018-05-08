@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tasksSelector } from '../../redux/reducers/task/selectors';
-import { updateTask, updateDraft, resetDraft, deleteTask, createTask } from '../../redux/reducers/task/actions';
+import { updateTask, updateDraft, resetDraft, deleteTask, createTask, clearDraft } from '../../redux/reducers/task/actions';
 import { ListGroup, ListGroupItem, Button, Modal, ModalBody, Input, Form, FormGroup } from 'reactstrap';
 
 class TaskList extends Component {
@@ -36,30 +36,31 @@ class TaskList extends Component {
 				</Button>
 				<ListGroup>
 					{
-						this.props.tasks.map((task) => {
-								return (
-									<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
-										<span>{task.name}</span>
-										<div>
-											<Button
-												onClick={() => this.openModalAndSetDraft(task)}
-												>
-												Edit
-											</Button>
-											<Button
-												className="ml-2"
-												color="danger"
-												onClick={() => this.props.deleteTask(task.id)}
-												>
-												Delete
-											</Button>
-										</div>
-									</ListGroupItem>
-								);
-							})
+						this.props.tasks.map((task) => (
+							<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
+								<span>{task.name}</span>
+								<div>
+									<Button
+										onClick={() => this.openModalAndSetDraft(task)}
+										>
+										Edit
+									</Button>
+									<Button
+										className="ml-2"
+										color="danger"
+										onClick={() => this.props.deleteTask(task.id)}
+										>
+										Delete
+									</Button>
+								</div>
+							</ListGroupItem>
+						))
 					}
 				</ListGroup>
-				<Modal isOpen={this.state.modalOpen} toggle={this.toggleModal}>
+				<Modal
+					isOpen={this.state.modalOpen}
+					toggle={this.toggleModal}
+					onClosed={this.props.clearDraft}>
 					<ModalBody>
 						<Form>
         					<FormGroup>
@@ -106,6 +107,7 @@ const mapDispatchToProps = {
 	resetDraft,
 	deleteTask,
 	createTask,
+	clearDraft,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

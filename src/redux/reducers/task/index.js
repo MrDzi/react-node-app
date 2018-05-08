@@ -50,6 +50,11 @@ export default function task(state = initialState, action) {
 				...state,
 				draftTask: state.tasks[state.draftTask.id]
 			}
+		case ActionTypes.CLEAR_DRAFT:
+			return {
+				...state,
+				draftTask: initialState.draftTask
+			}
         default:
             return state;
     }

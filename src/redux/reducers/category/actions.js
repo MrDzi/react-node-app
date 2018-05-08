@@ -7,6 +7,7 @@ export const ActionTypes = {
 	UPDATED_CATEGORY: 'UPDATED_CATEGORY',
 	UPDATE_CATEGORY_DRAFT: 'UPDATE_CATEGORY_DRAFT',
 	SET_SELECTED_CATEGORY: 'SET_SELECTED_CATEGORY',
+	CLEAR_DRAFT: 'CLEAR_DRAFT',
 }
 
 export const updateCategoryDraft = (category) => ({
@@ -31,4 +32,8 @@ export const updateCategory = (category) => ({
 export const setSelectedCategory = (categoryId) => ({
 	type: ActionTypes.SET_SELECTED_CATEGORY,
 	payload: categoryId
+})
+
+export const clearDraft = () => ({
+	type: ActionTypes.CLEAR_DRAFT
 })
