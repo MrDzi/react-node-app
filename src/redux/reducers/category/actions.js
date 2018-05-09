@@ -25,7 +25,7 @@ export const fetchCategories = () => ({
 })
 
 export const updateCategory = (category) => ({
-	type: ActionTypes.UPDATE_TASK,
+	type: ActionTypes.UPDATE_CATEGORY,
 	payload: category
 })
 

@@ -44,6 +44,7 @@ class App extends Component {
 		}
 	}
 	updateOrCreateCategory = () => {
+		console.log(this.props);
 		this.props.draftCategory.hasOwnProperty('id') ? this.props.updateCategory(this.props.draftCategory) : this.props.createCategory(this.props.draftCategory);
 		this.toggleCategoryModal();
 	}

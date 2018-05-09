@@ -10,6 +10,7 @@ export const ActionTypes = {
 	UPDATE_DRAFT: 'UPDATE_DRAFT',
 	RESET_DRAFT: 'RESET_DRAFT',
 	CLEAR_DRAFT: 'CLEAR_DRAFT',
+	SET_SHOW_COMPLETED: 'SET_SHOW_COMPLETED',
 }
 
 export const fetchTasks = () => ({
@@ -42,4 +43,9 @@ export const createTask = (task) => ({
 
 export const clearDraft = () => ({
 	type: ActionTypes.CLEAR_DRAFT
+})
+
+export const setShowCompleted = (showCompleted) => ({
+	type: ActionTypes.SET_SHOW_COMPLETED,
+	payload: showCompleted
 })

@@ -5,7 +5,8 @@ const initialState = {
     tasks: {},
 	draftTask: {
 		name: ''
-	}
+	},
+	showOnlyCompleted: false
 };
 
 export default function task(state = initialState, action) {
@@ -33,7 +34,10 @@ export default function task(state = initialState, action) {
 				...state,
                 tasks: {
                     ...state.tasks,
-                    [action.payload.id]: action.payload
+                    [action.payload.id]: {
+						...state.tasks[action.payload.id],
+						...action.payload
+					}
                 },
 				draftTask: initialState.draftTask
             }
@@ -55,9 +59,15 @@ export default function task(state = initialState, action) {
 				...state,
 				draftTask: initialState.draftTask
 			}
+		case ActionTypes.SET_SHOW_COMPLETED:
+			return {
+				...state,
+				showOnlyCompleted: action.payload
+			}
         default:
             return state;
     }
 }
 
 export const getTasksFromState = (state) => state.task.tasks;
+export const getShowOnlyCompletedFromState = (state) => state.task.showOnlyCompleted;

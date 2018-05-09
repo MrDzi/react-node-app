@@ -6,12 +6,12 @@ let tasks = [
 	{
 		id: 1,
 		name: 'task 1',
-		categoryId: 1
+		categoryId: 1,
 	},
 	{
 		id: 2,
 		name: 'task 2',
-		categoryId: 2
+		categoryId: 2,
 	}
 ]
 
