@@ -4,6 +4,9 @@ import { tasksSelector } from '../../redux/reducers/task/selectors';
 import { categoriesSelector } from '../../redux/reducers/category/selectors';
 import { updateTask, updateDraft, resetDraft, deleteTask, createTask, clearDraft, setShowCompleted } from '../../redux/reducers/task/actions';
 import { ListGroup, ListGroupItem, Button, Modal, ModalBody, Input, Form, FormGroup, Label } from 'reactstrap';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 
 class TaskList extends Component {
 	constructor(props) {
@@ -54,7 +57,12 @@ class TaskList extends Component {
 							<ListGroupItem key={task.id} className="d-flex align-items-center justify-content-between">
 								<div>
 									<span className="mr-5">{task.name}</span>
-									<span>{task.status}</span>
+									<span className="mr-5">{task.status}</span>
+									{
+										task.date && (
+											<span>{moment(task.date).format('MM/DD/YYYY')}</span>
+										)
+									}
 								</div>
 								<div className="d-flex align-items-center">
 									<Button
@@ -112,6 +120,17 @@ class TaskList extends Component {
 									}}
 								/>
         					</FormGroup>
+							<DatePicker
+								className="mb-4"
+								selected={this.props.draftTask.date}
+								onChange={(date) => {
+									this.props.updateDraft({
+										date: date
+									});
+								}}
+								minDate={moment()}
+								placeholderText="Select a date"
+							/>
 							<FormGroup>
 					          	<Input
 									type="select"
