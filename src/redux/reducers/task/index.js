@@ -41,7 +41,7 @@ export default function task(state = initialState, action) {
                 },
 				draftTask: initialState.draftTask
             }
-		case ActionTypes.UPDATE_DRAFT:
+		case ActionTypes.UPDATE_TASK_DRAFT:
 			return {
 				...state,
 				draftTask: {
@@ -49,12 +49,12 @@ export default function task(state = initialState, action) {
 					...action.payload
 				}
 			}
-		case ActionTypes.RESET_DRAFT:
+		case ActionTypes.RESET_TASK_DRAFT:
 			return {
 				...state,
 				draftTask: state.tasks[state.draftTask.id]
 			}
-		case ActionTypes.CLEAR_DRAFT:
+		case ActionTypes.CLEAR_TASK_DRAFT:
 			return {
 				...state,
 				draftTask: initialState.draftTask

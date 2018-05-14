@@ -7,9 +7,9 @@ export const ActionTypes = {
 	UPDATED_TASK: 'UPDATED_TASK',
     DELETE_TASK: 'DELETE_TASK',
 	DELETED_TASK: 'DELETED_TASK',
-	UPDATE_DRAFT: 'UPDATE_DRAFT',
-	RESET_DRAFT: 'RESET_DRAFT',
-	CLEAR_DRAFT: 'CLEAR_DRAFT',
+	UPDATE_TASK_DRAFT: 'UPDATE_TASK_DRAFT',
+	RESET_TASK_DRAFT: 'RESET_TASK_DRAFT',
+	CLEAR_TASK_DRAFT: 'CLEAR_TASK_DRAFT',
 	SET_SHOW_COMPLETED: 'SET_SHOW_COMPLETED',
 }
 
@@ -22,13 +22,13 @@ export const updateTask = (task) => ({
 	payload: task
 })
 
-export const updateDraft = (task) => ({
-	type: ActionTypes.UPDATE_DRAFT,
+export const updateTaskDraft = (task) => ({
+	type: ActionTypes.UPDATE_TASK_DRAFT,
 	payload: task
 })
 
-export const resetDraft = () => ({
-	type: ActionTypes.RESET_DRAFT
+export const resetTaskDraft = () => ({
+	type: ActionTypes.RESET_TASK_DRAFT
 })
 
 export const deleteTask = (taskId) => ({
@@ -41,8 +41,8 @@ export const createTask = (task) => ({
 	payload: task
 })
 
-export const clearDraft = () => ({
-	type: ActionTypes.CLEAR_DRAFT
+export const clearTaskDraft = () => ({
+	type: ActionTypes.CLEAR_TASK_DRAFT
 })
 
 export const setShowCompleted = (showCompleted) => ({

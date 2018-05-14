@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
+import { TabContent, TabPane, Nav, NavItem, NavLink, Container, Modal, ModalBody, Input, Form, FormGroup, Button } from 'reactstrap';
+import TaskList from './components/task/TaskList';
 import { tasksSelector } from './redux/reducers/task/selectors';
 import { categoriesSelector } from './redux/reducers/category/selectors';
 import { fetchTasks } from './redux/reducers/task/actions';
-import { fetchCategories, createCategory, updateCategory, setSelectedCategory, clearDraft } from './redux/reducers/category/actions';
-import { TabContent, TabPane, Nav, NavItem, NavLink, Container, Modal, ModalBody, Input, Form, FormGroup, Button } from 'reactstrap';
-import classnames from 'classnames';
+import { fetchCategories, createCategory, updateCategory, setSelectedCategory, clearCategoryDraft, updateCategoryDraft } from './redux/reducers/category/actions';
 import './App.css';
-import TaskList from './components/task/TaskList';
-import { updateCategoryDraft } from './redux/reducers/category/actions';
 
 class App extends Component {
 	constructor(props) {
@@ -110,7 +109,7 @@ class App extends Component {
 				<Modal
 					isOpen={this.state.modalOpen}
 					toggle={this.toggleCategoryModal}
-					onClosed={this.props.clearDraft}
+					onClosed={this.props.clearCategoryDraft}
 				>
 					<ModalBody>
 						<Form>
@@ -166,7 +165,7 @@ const mapDispatchToProps = {
 	createCategory,
 	updateCategory,
 	setSelectedCategory,
-	clearDraft,
+	clearCategoryDraft,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

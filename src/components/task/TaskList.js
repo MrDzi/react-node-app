@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { tasksSelector } from '../../redux/reducers/task/selectors';
 import { categoriesSelector } from '../../redux/reducers/category/selectors';
-import { updateTask, updateDraft, resetDraft, deleteTask, createTask, clearDraft, setShowCompleted } from '../../redux/reducers/task/actions';
+import { updateTask, updateTaskDraft, resetTaskDraft, deleteTask, createTask, clearTaskDraft, setShowCompleted } from '../../redux/reducers/task/actions';
 import { ListGroup, ListGroupItem, Button, Modal, ModalBody, Input, Form, FormGroup, Label } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -16,7 +16,7 @@ class TaskList extends Component {
 		}
 	}
 	openModalAndSetDraft(task) {
-		this.props.updateDraft(task);
+		this.props.updateTaskDraft(task);
 		this.toggleModal();
 	}
 	toggleModal = () => {
@@ -103,7 +103,7 @@ class TaskList extends Component {
 				<Modal
 					isOpen={this.state.modalOpen}
 					toggle={this.toggleModal}
-					onClosed={this.props.clearDraft}>
+					onClosed={this.props.clearTaskDraft}>
 					<ModalBody>
 						<Form>
         					<FormGroup>
@@ -114,7 +114,7 @@ class TaskList extends Component {
 									id="taskName"
 									value={this.props.draftTask.name}
 									onChange={(event) => {
-										this.props.updateDraft({
+										this.props.updateTaskDraft({
 											name: event.target.value
 										})
 									}}
@@ -124,7 +124,7 @@ class TaskList extends Component {
 								className="mb-4"
 								selected={this.props.draftTask.date}
 								onChange={(date) => {
-									this.props.updateDraft({
+									this.props.updateTaskDraft({
 										date: date
 									});
 								}}
@@ -138,7 +138,7 @@ class TaskList extends Component {
 									id="categoryId"
 									value={this.props.draftTask.categoryId}
 									onChange={(event) => {
-										this.props.updateDraft({
+										this.props.updateTaskDraft({
 											categoryId: parseInt(event.target.value, 10)
 										})
 									}}>
@@ -162,7 +162,7 @@ class TaskList extends Component {
 									id="status"
 									value={this.props.draftTask.status || "none"}
 									onChange={(event) => {
-										this.props.updateDraft({
+										this.props.updateTaskDraft({
 											status: event.target.value
 										})
 									}}>
@@ -173,7 +173,7 @@ class TaskList extends Component {
 					        	</Input>
 					        </FormGroup>
 							<div className="text-right">
-								<Button onClick={() => this.props.resetDraft()}>Reset</Button>
+								<Button onClick={() => this.props.resetTaskDraft()}>Reset</Button>
 								<Button
 									className="ml-2"
 									onClick={this.updateOrCreateTask}
@@ -200,11 +200,11 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
 	updateTask,
-	updateDraft,
-	resetDraft,
+	updateTaskDraft,
+	resetTaskDraft,
 	deleteTask,
 	createTask,
-	clearDraft,
+	clearTaskDraft,
 	setShowCompleted,
 }
 

@@ -45,7 +45,7 @@ export default function category(state = initialState, action) {
 				...state,
 				selectedCategoryId: action.payload
 			}
-		case ActionTypes.CLEAR_DRAFT:
+		case ActionTypes.CLEAR_CATEGORY_DRAFT:
 			return {
 				...state,
 				draftCategory: initialState.draftCategory
