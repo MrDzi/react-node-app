@@ -46,12 +46,19 @@ const updateTaskMock = (task) => updateTaskMockWrapper(task);
 const deleteTaskMock = (taskId) => deleteTaskMockWrapper(taskId);
 const createTaskMock = (task) => createTaskMockWrapper(task);
 
+/*** Real api requests ***/
+const fetchTasksApi = function() {
+	return fetch('http://localhost:3001/tasks')
+		.then(response => response.json());
+}
+
 const fetchTasks = function* () {
 	try {
-		const response = yield call(fetchTasksMock);
+		const response = yield call(fetchTasksApi);
+		console.log(response);
 		yield put({
 			type: ActionTypes.FETCHED_TASKS,
-			payload: response.body
+			payload: response
 		});
 	} catch (error) {
 		console.log(error);
